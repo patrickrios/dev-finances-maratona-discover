@@ -50,7 +50,10 @@ a:hover{
 
 .button.new{
     display: inline-block;
-    margin-bottom: .8rem;
+    margin-bottom: .3rem;
+    background-color: #e6e2ff;
+    border-radius:.4rem;
+    padding:.3rem .5rem;
 }
 
 button{
@@ -110,6 +113,9 @@ header{
     border-radius: .25rem;
     margin-bottom: 2rem;
     color: var(--dark-blue);
+    box-shadow: -1px 0px 13px -5px rgba(142,143,166,0.75);
+-webkit-box-shadow: -1px 0px 13px -5px rgba(142,143,166,0.75);
+-moz-box-shadow: -1px 0px 13px -5px rgba(142,143,166,0.75);
 }
 
 .card h3{
@@ -147,7 +153,7 @@ header{
 table th{
     background-color:#fff;
     font-weight: normal;
-    padding: 1rem 2rem;
+    padding: .5rem 2rem;
     color: #969cb3;
     text-align: left;
 
@@ -226,12 +232,14 @@ td.expense{
 }
 
 #form form input{
-    border: none;
+    border: 1px solid #e6e2ff;
     border-radius: 0.2rem;
     padding: 0.8rem;
     width:100%;
 }
-
+#form form input:focus{
+    border-color: #997dda;
+}
 .input-group{
     margin-top: .8rem;
 }
