@@ -59,7 +59,10 @@ a:hover{
     margin-right:3px;
 }
 .button.new:hover{
-    opacity:.85;
+    opacity:.8;
+}
+.button.new:hover img{
+    opacity:.7;
 }
 button{
     width: 100%;
