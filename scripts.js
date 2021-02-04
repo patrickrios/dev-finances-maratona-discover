@@ -49,11 +49,15 @@ const Transaction = {
     },
     total(){
         return Transaction.incomes() + Transaction.expenses()
+    },
+    isEmpty(){
+        return (Transaction.all.length === 0)
     }
 }
 
 
 const DOM = {
+    emptyVisible: "",
     transactionContainer: document.querySelector('#data-table tbody'),
 
     addTransaction(transaction, index){
@@ -89,6 +93,12 @@ const DOM = {
     },
     clearTransactions(){
         DOM.transactionContainer.innerHTML = ""
+    },
+    showEmptyTable(){
+        document.
+            querySelector('div.empty-table').
+            classList.
+            toggle('display-empty')
     }
 }
 
@@ -172,7 +182,16 @@ const App = {
     init(){
         Transaction.all.forEach( DOM.addTransaction )
         DOM.updateBalance()
-        Storage.set( Transaction.all )
+        Storage.set( Transaction.all )    
+        if(Transaction.isEmpty()){
+            DOM.showEmptyTable()
+            DOM.emptyVisible = true;
+        }
+        else if(DOM.emptyVisible){
+            DOM.showEmptyTable()
+            DOM.emptyVisible = false;
+            
+        }
     },
     reload(){
         DOM.clearTransactions()
