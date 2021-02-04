@@ -1,9 +1,17 @@
 const Modal = {
     toggleModal(){
-        document
-            .querySelector('.modal-overlay')
-            .classList
-            .toggle('active')
+        const modal = document.querySelector('.modal-overlay')
+        Toggle.display(modal)
+    },
+    toggleReport(){
+        const report = document.querySelector('section.modal-report')
+        Toggle.display(report)
+    }
+}
+
+const Toggle = {
+    display(element){
+        element.classList.toggle('active')
     }
 }
 

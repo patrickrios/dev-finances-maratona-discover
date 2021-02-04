@@ -12,11 +12,11 @@
 
 <body>
     <!-- cabeçalho -->
-    <header>
+    <header id="head">
         <img src="./assets/logo.svg" alt="dev.finance$">
     </header>
 
-    <!-- conteudo -->
+    <!-- Balanço -->
     <main class="container">
         <section id="balance">
             <h2 class="sr-only">Balanço</h2>
@@ -43,15 +43,30 @@
             </div>    
         </section> 
 
+        <!-- Transações -->
         <section id="transactions">
             <h2 class="sr-only">Transações</h2>
-            <a onclick="Modal.toggleModal()" href="#" class="button new"><img src="./assets/new-transaction.svg"> nova transação</a>
+            <!-- Actions -->
+            <div class="table-actions">
+                <a onclick="Modal.toggleModal()"  href="#" class="button new"><img src="./assets/new-transaction.svg"> nova transação</a>
+                <a onclick="Modal.toggleReport()" href="#" class="action-report"><img src="./assets/ion_stats-chart.svg" alt="Ícone opção de relatório"> Relatórios</a>
+                <div class="table-calendar">
+                    <a href="#" class="calendar-control">
+                        <img src="./assets/keyboard_arrow_left.svg" alt="Seta mês anterior">
+                    </a>
+                    <p>FEV/2021</p>
+                    <a href="#" class="calendar-control">
+                        <img src="./assets/keyboard_arrow_right.svg" alt="Seta próximo mês">
+                    </a>
+                </div>
+            </div>
+            <!-- List -->
             <table id="data-table">
                 <thead>
                     <tr>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                        <th>Data</th>
+                        <th>DESCRIÇÃO</th>
+                        <th>VALOR</th>
+                        <th>DATA</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -63,8 +78,28 @@
             </div>
         </section>
 
+        <!-- Relatorios -->
+        <section class="modal-report">
+            <header>
+                <a onclick="Modal.toggleReport()" href="#" class="report-header-action">
+                    <img src="./assets/ion_arrow-back.svg" alt="Ícone voltar para o início">
+                    Voltar para o início
+                </a>
+                <h3>Fevereiro 2021</h3>
+                <a href="" class="report-header-action">
+                    <img src="./assets/ion_print-outline.svg" alt="Ícone imprimir relatório">
+                    Imprimir
+                </a>
+                <a href="" class="report-header-action">
+                    <img src="./assets/ion_download-outline.svg" alt="Ícone salvar PDF">
+                    Salvar PDF
+                </a>
+            </header>
+        </section>
+
     </main>
 
+    <!-- Nova transação -->
     <div class="modal-overlay">
         <div class="modal">
             <div id="form">

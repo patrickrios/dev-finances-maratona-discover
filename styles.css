@@ -4,6 +4,7 @@
     --green:#49aa26;
     --light-green: #68c446;
     --red: #e92929;
+    --action-bg:#F0F2F5;
 }
 
 *{
@@ -29,6 +30,7 @@ body{
 .container{
     width: min(80vw, 800px);
     margin:auto;
+    position: relative;
 }
 
 h2{
@@ -36,6 +38,11 @@ h2{
     margin-bottom: 0.8rem;
     color: var(--dark-blue);
     font-weight: normal;
+}
+
+h3{
+    font-weight: normal;
+    color: var(--dark-blue);
 }
 
 /* Links & buttons  ----*/
@@ -96,9 +103,9 @@ button{
     opacity:1;
 }
 
-/* HEADER -----------------------*/
+/* HEADER ================*/
 
-header{
+#head{
     background: linear-gradient(to right, #117e75, #117437);
     padding: 2rem 0 6rem;
     text-align: center;
@@ -164,12 +171,13 @@ header{
 }
 
 table th{
-    background-color:#fff;
-    font-weight: normal;
-    padding: .5rem 2rem;
-    color: #969cb3;
+    background-color: #80c48a;
+    font-weight: bold;
+    padding: .4rem 2rem;
+    color: #fff;
     text-align: left;
-
+    border-bottom: 2px solid #77ae7f;
+    font-size: .9em;
 }
 
 table td{
@@ -208,7 +216,7 @@ td.expense{
 }
 
 .empty-table{
-    background-color:#e9e9fd;
+    background-color:#fff;
     width: 100%;
     display: flex;
     align-items: center;
@@ -225,7 +233,74 @@ td.expense{
 
 .empty-table p{
     font-size:1.2rem;
-    color: #969cb3;
+    color: #b0b5ca;
+}
+
+.table-actions{
+    width:100%;
+    display: grid;
+    grid-template-columns:65fr 15fr 20fr ;
+    gap:1rem;
+}
+
+.table-calendar, .action-report{
+    background-color:#DDE5E0;
+    color: var(--dark-blue);
+    display: grid;
+    grid-template-columns: 15fr 70fr 15fr;
+    align-items: center;
+    justify-content: center;
+    border-radius:4px;
+    padding:.2rem;
+}
+
+.table-calendar a{
+    background-color: var(--action-bg);
+    border-radius:4px;
+    display: flex;
+    justify-content: center;
+}
+
+.table-calendar p{
+    text-align: center;
+}
+
+.action-report  img{
+    margin:0 .5rem;
+}
+
+/* REPORT ===================== */
+.modal-report{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius:.4rem;
+    top:0;
+    overflow: hidden;
+    opacity:0;
+    visibility:hidden;
+}
+
+.modal-report header{
+    display: grid;
+    grid-template-columns:30fr 45fr 10fr 20fr;
+    gap:1.2rem;
+    height: auto;
+    padding:1rem .5rem;
+    align-items: center;
+    background-color: #f7fcff;
+}
+.report-header-action{
+    color:#969CB2;
+    display: flex;
+    align-items: center;
+    padding:.3rem;
+    
+}
+.modal-report header h3{
+    text-align: center;
+    font-size:1.35em;
 }
 
 /* MODAL --------------*/
@@ -243,7 +318,8 @@ td.expense{
     z-index:2;
 }
 
-.modal-overlay.active{
+.modal-overlay.active,
+.modal-report.active{
     opacity: 1;
     visibility: visible;
 }
@@ -311,6 +387,7 @@ footer .footer-logo{
 footer .footer-logo:hover{
     opacity:1;
 }
+
 /* Responsive ------*/
 @media(min-width:800px){
 
