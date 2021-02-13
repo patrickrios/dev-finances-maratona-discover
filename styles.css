@@ -19,7 +19,7 @@ html{
 
 body{
     background-color: #f2f0ff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
 
 .sr-only{
@@ -61,6 +61,8 @@ a:hover{
     display: flex;
     align-items: center;
     max-width: max-content;
+    color: var(--light-green);
+    font-weight: 700;
 }
 .button.new img{
     margin-right:3px;
@@ -70,6 +72,12 @@ a:hover{
 }
 .button.new:hover img{
     opacity:.7;
+}
+
+.button.report, .button.calendar{
+    color: var(--dark-blue);
+    background-color: #e9eff1;
+    border-radius: .3rem;
 }
 button{
     width: 100%;
@@ -85,7 +93,7 @@ button{
 }
 .button.cancel{
     color: var(--red);
-    border: 2px solid var(--red);
+    border: 1px solid var(--red);
     border-radius: .25rem;
     height: 50px;
     display: flex;
@@ -94,10 +102,10 @@ button{
     opacity: .6;
 }
 .button.save-transaction{
-    background-color: #34b659;
+    background-color: var(--light-green);
 }
 .button.save-transaction:hover{
-    background-color: #2c994b;
+    background: var(--green);
 }
 .button.cancel:hover{
     opacity:1;
@@ -106,7 +114,8 @@ button{
 /* HEADER ================*/
 
 #head{
-    background: linear-gradient(to right, #117e75, #117437);
+    background: linear-gradient(to bottom, #39444A 70%, #2f393d);
+    background-color:#39444A;/*  linear-gradient(to right, #117e75, #117437) */
     padding: 2rem 0 6rem;
     text-align: center;
     margin-bottom: 3.5rem;
@@ -153,7 +162,10 @@ button{
 }
 
 .card.total{
-    background-color:var(--green);
+    background-color: #AF54C5;
+    color:#fff;
+}
+.card.total h3{
     color:#fff;
 }
 
@@ -171,12 +183,12 @@ button{
 }
 
 table th{
-    background-color: #80c48a;
+    background-color: #E4EAF4;
     font-weight: bold;
     padding: .4rem 2rem;
-    color: #fff;
+    color: #7F89AB;
     text-align: left;
-    border-bottom: 2px solid #77ae7f;
+    border-bottom: 2px solid #e1e7f1;
     font-size: .9em;
 }
 
@@ -196,12 +208,12 @@ table tbody tr{
 
 table thead tr th:first-child,
 table tbody tr td:first-child {
-    border-radius: .25rem 0 0 .25rem;
+    border-radius: .25rem 0 0 0;
 }
 
 table thead tr th:last-child,
 table tbody tr td:last-child{
-    border-radius: 0 .25rem .25rem 0;
+    border-radius: 0 .25rem 0 0;
 }
 
 td.description{
@@ -221,9 +233,11 @@ td.expense{
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.6rem 0;
+    flex-direction: column;
+    padding: 3rem 0;
     opacity:0;
     visibility:hidden;
+    border-radius:.3rem;
 }
 
 .display-empty{
@@ -232,6 +246,7 @@ td.expense{
 }
 
 .empty-table p{
+    margin-top:1rem;
     font-size:1.2rem;
     color: #b0b5ca;
 }
@@ -239,24 +254,18 @@ td.expense{
 .table-actions{
     width:100%;
     display: grid;
-    grid-template-columns:65fr 15fr 20fr ;
+    grid-template-columns:65fr 11fr 15fr ;
     gap:1rem;
 }
 
 .table-calendar, .action-report{
-    background-color:#DDE5E0;
-    color: var(--dark-blue);
     display: grid;
-    grid-template-columns: 15fr 70fr 15fr;
+    grid-template-columns: 15fr 15fr 15fr;
     align-items: center;
     justify-content: center;
-    border-radius:4px;
-    padding:.2rem;
 }
 
 .table-calendar a{
-    background-color: var(--action-bg);
-    border-radius:4px;
     display: flex;
     justify-content: center;
 }
@@ -271,15 +280,10 @@ td.expense{
 
 /* REPORT ===================== */
 .modal-report{
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 65%;
     background-color: #fff;
     border-radius:.4rem;
-    top:0;
-    overflow: hidden;
-    opacity:0;
-    visibility:hidden;
+    padding-bottom: 3rem;
 }
 
 .modal-report header{
@@ -287,9 +291,8 @@ td.expense{
     grid-template-columns:30fr 45fr 10fr 20fr;
     gap:1.2rem;
     height: auto;
-    padding:1rem .5rem;
+    padding:.7rem .5rem;
     align-items: center;
-    background-color: #f7fcff;
 }
 .report-header-action{
     color:#969CB2;
@@ -302,12 +305,25 @@ td.expense{
     text-align: center;
     font-size:1.35em;
 }
+.chart-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin:0 5%;
+    padding:2rem 0 2rem 0;
+    background-color: #f5f5f5;
+    border-radius:.7rem;
+}
+.chart{
+    width:50%;
+}
 
-/* MODAL --------------*/
-.modal-overlay{
+/* MODAL ===================*/
+.modal-overlay, .modal-report-container{
     width:100%;
     height:100%;
-    background-color: rgba(0,0,0,.7);
+    background-color: rgba(0,0,0,.6);
     position: fixed;
     top:0;
     display:flex;
@@ -319,7 +335,7 @@ td.expense{
 }
 
 .modal-overlay.active,
-.modal-report.active{
+.modal-report-container.active{
     opacity: 1;
     visibility: visible;
 }
@@ -330,6 +346,7 @@ td.expense{
     position: relative;
     width:90%;
     max-width:500px;
+    border-radius:.4rem;
 }
 
 /* FORM --------------*/

@@ -1,43 +1,108 @@
 const Modal = {
     toggleModal(){
         const modal = document.querySelector('.modal-overlay')
-        Toggle.display(modal)
+        Modal.display(modal)
     },
     toggleReport(){
-        const report = document.querySelector('section.modal-report')
-        Toggle.display(report)
-    }
-}
-
-const Toggle = {
+        const report = document.querySelector('div.modal-report-container')
+        Modal.display(report)
+    },
     display(element){
         element.classList.toggle('active')
     }
 }
 
-const Storage = {
+const Today = {
+    date: new Date(),
     get(){
-        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+        return String( Number(Today.date.getMonth())+'/'+Today.date.getFullYear())
     },
-    set(transactions){
-        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))   
+    year(){
+        return Today.date.getFullYear()
+    },
+    month(){
+        return Today.date.getMonth()
     }
 }
 
+const DATE = {
+    month: Today.month(),
+    year: Today.year(),
+    getCurrentDate(){
+        return DATE.getMonthName( Number(DATE.month) )+'/'+DATE.year
+    },
+    getMonthName( month ){
+        let names = new Array ("JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ")
+        return names[month]
+    },
+    clear( element ){
+        element.innerHTML("")
+        return element
+    },
+    previousDate(){
+        DATE.month--
+        DATE.updateMonth()
+        App.reload()
+    },
+    nextDate(){
+        DATE.month++
+        DATE.updateMonth()
+        App.reload()
+    },
+    updateMonth(){
+        if( DATE.month === 12 ){
+            DATE.month = 0
+            DATE.year++
+        }
+        else if( DATE.month === -1){
+            DATE.month = 11
+            DATE.year--
+        }
+    },
+    updateCalendar(){
+        document
+        .querySelector('p#calendar-month-year')
+        .innerHTML = DATE.getCurrentDate()
+    }
+}
+
+const Storage = {
+    get(){
+        return JSON.parse(localStorage.getItem(`dev.finances:transactions[${DATE.getCurrentDate()}]`)) || []
+    },
+    set(transactions){
+        localStorage.setItem(`dev.finances:transactions[${DATE.getCurrentDate()}]`, JSON.stringify(transactions))   
+    },
+    getByDate( date){
+        return JSON.parse(localStorage.getItem(`dev.finances:transactions[${date}]`)) || []
+    },
+    setByDate(transactions, date){
+        localStorage.setItem(`dev.finances:transactions[${date}]`, JSON.stringify(transactions))   
+    }
+    
+}
 
 const Transaction = {
-    all: Storage.get(),
+    getAll(){
+        return Storage.get()
+    },
     add( transaction){
-        Transaction.all.push(transaction)
+        let fdate = Utils.formatCalendar( transaction.date )
+        let stg = Storage.getByDate(fdate)
+        stg.push(transaction)
+        Storage.setByDate( stg, fdate)
         App.reload()
     },
     remove(index){
-        Transaction.all.splice(index, 1)
+        const all = Transaction.getAll()
+        all.splice(index, 1)
+        console.log( all )
+        Storage.set(all)
         App.reload()
     },
     incomes(){
         let income = 0
-        Transaction.all.forEach( tr => {
+        Transaction.getAll().forEach( tr => {
             if(tr.amount > 0){
                 income += tr.amount
             }
@@ -46,7 +111,7 @@ const Transaction = {
     },
     expenses(){
         let expense = 0
-        Transaction.all.forEach( tr => {
+        Transaction.getAll().forEach( tr => {
             if(tr.amount < 0){
                 expense += tr.amount
             }
@@ -57,13 +122,13 @@ const Transaction = {
         return Transaction.incomes() + Transaction.expenses()
     },
     isEmpty(){
-        return (Transaction.all.length === 0)
+        return (Transaction.getAll().length === 0)
     }
 }
 
 const DOM = {
-    emptyVisible: "",
     transactionContainer: document.querySelector('#data-table tbody'),
+    emptyTable: document.querySelector('div.empty-table'),
 
     addTransaction(transaction, index){
         const tr = document.createElement('tr')
@@ -80,7 +145,7 @@ const DOM = {
             <td class="${CSSclass}">${amount}</td>
             <td class="date">${transaction.date}</td>
             <td>
-                <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
+                <img onclick="Transaction.remove(${index})" src="./assets/clarity_remove.svg" alt="Remover transação">
             </td>
         `
         return html;
@@ -100,10 +165,10 @@ const DOM = {
         DOM.transactionContainer.innerHTML = ""
     },
     showEmptyTable(){
-        document.
-            querySelector('div.empty-table').
-            classList.
-            toggle('display-empty')
+        DOM.emptyTable.classList.add('display-empty')
+    },
+    hideEmptyTable(){
+        DOM.emptyTable.classList.remove('display-empty')
     }
 }
 
@@ -119,11 +184,16 @@ const Utils = {
         return signal+value
     },
     formatAmount(amount){
-        return Number(amount) * 100
+        amount = amount*100
+        return Math.round(amount)
     },
     formatDate(date){
         const splitted = date.split("-")
         return `${splitted[2]}/${splitted[1]}/${splitted[0]}`
+    },
+    formatCalendar(date){
+        let fd = date.split('/')
+        return DATE.getMonthName( Number(fd[1]-1) )+'/'+fd[2]
     }
 }
 
@@ -183,18 +253,10 @@ const Form = {
 
 const App = {
     init(){
-        Transaction.all.forEach( DOM.addTransaction )
+        Storage.getByDate( DATE.getCurrentDate() ).forEach( DOM.addTransaction )
         DOM.updateBalance()
-        Storage.set( Transaction.all )    
-        if(Transaction.isEmpty()){
-            DOM.showEmptyTable()
-            DOM.emptyVisible = true;
-        }
-        else if(DOM.emptyVisible){
-            DOM.showEmptyTable()
-            DOM.emptyVisible = false;
-            
-        }
+        DATE.updateCalendar()
+        Transaction.isEmpty() ? DOM.showEmptyTable() : DOM.hideEmptyTable()
     },
     reload(){
         DOM.clearTransactions()
