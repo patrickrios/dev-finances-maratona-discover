@@ -17,8 +17,8 @@
         <img src="./assets/logo.svg" alt="dev.finance$">
     </header>
 
-    <!-- Balanço -->
     <main class="container">
+        <!-- Balanço -->
         <section id="balance">
             <h2 class="sr-only">Balanço</h2>
             <div class="card">
@@ -37,7 +37,7 @@
             </div>
             <div class="card total">
                 <h3>
-                    <span>Saldo</span>
+                    <span>Total</span>
                     <img src="./assets/total.svg" alt="imagem de total">
                 </h3>
                 <p id="totalDisplay">R$ 0,00</p>
@@ -50,7 +50,7 @@
             <!-- Actions -->
             <div class="table-actions">
                 <a onclick="Modal.toggleModal()"  href="#" class="button new"><img src="./assets/add-circle.svg"> nova transação</a>
-                <a onclick="Modal.toggleReport()" href="#" class="action-report button report"><img src="./assets/pie-chart.svg" alt="Ícone opção de relatório"> Gráficos</a>
+                <a onclick="Modal.toggleReport()" href="#" class="action-report button report"><img src="./assets/pie-chart.svg" alt="Ícone opção de relatório"> Estatísticas</a>
                 <div class="table-calendar button calendar">
                     <a href="#" onclick="DATE.previousDate()" class="calendar-control">
                         <img src="./assets/chevron-left.svg" alt="Seta mês anterior">
@@ -128,24 +128,37 @@
      <!-- Relatorios -->
      <div class="modal-report-container">
         <section class="modal-report">
-            <header>
-                <a onclick="Modal.toggleReport()" href="#" class="report-header-action">
-                    <img src="./assets/report_arrow-back.svg" alt="Ícone voltar para o início">
-                    Voltar para o início
-                </a>
-                <h3>Fevereiro 2021</h3>
-                <a href="" class="report-header-action">
-                    <img src="./assets/report_print-outline.svg" alt="Ícone imprimir relatório">
-                    Imprimir
-                </a>
-                <a href="" class="report-header-action">
-                    <img src="./assets/report_download-outline.svg" alt="Ícone salvar PDF">
-                    Salvar PDF
-                </a>
-            </header>
-            <div class="chart-container">
-                <canvas class="chart"></canvas>
-            </div>
+            <img src="./assets/eva_close-fill.svg" onclick="Modal.toggleReport()" class="close-icon" alt="Fechar estatísticas">
+            <h3 class="full-date-report">full date</h3>
+            <section id="report-charts">
+                <!-- Gráfico pizza -->
+                <div class="chart-container pie-chart-container">
+                    <canvas class="pie-chart"></canvas>
+                </div>
+                <!-- Estatisticas -->
+                <div class="chart-container stats">
+                    <div class="stats-item">
+                        <h3 class="stats-item-incomes">Entradas: <b class="count-label report-incomes">0</b></h3>
+                        <div>
+                            <p class="count-incomes incomes-porc">0%</p>
+                            <p class="count-incomes incomes-total">0,00</p>
+                        </div>
+                    </div>
+                    <div class="stats-item">
+                        <h3 class="stats-item-expenses">Saídas:  <b class="count-label report-expenses">0</b></h3>
+                        <div>
+                            <p class="count-expenses expenses-porc">0%</p>
+                            <p class="count-expenses expenses-total">0,00</p>
+                        </div>
+                    </div>
+                    <div class="stats-item">
+                        <div>
+                            <p class="stats-item-total">Total: <b class="count-label count-total">0</b></p>
+                            <p><img src="./assets/dislike-red.svg" id="total-icon" alt=""><b class="report-total">0,00</b></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
      </div>
 
@@ -154,8 +167,7 @@
         <img src="./assets/footer-logo.svg" alt="Logo no rodapé da página" class="footer-logo">
     </footer>
 
-    <script src="./scripts.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="./chart.js"></script>
+    <script src="./scripts.js" type="text/javascript"></script>
 </body>
 </html>

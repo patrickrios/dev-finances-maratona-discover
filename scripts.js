@@ -4,6 +4,7 @@ const Modal = {
         Modal.display(modal)
     },
     toggleReport(){
+        Report.render()
         const report = document.querySelector('div.modal-report-container')
         Modal.display(report)
     },
@@ -29,11 +30,15 @@ const DATE = {
     month: Today.month(),
     year: Today.year(),
     getCurrentDate(){
-        return DATE.getMonthName( Number(DATE.month) )+'/'+DATE.year
+        return DATE.getMonthName()+'/'+DATE.year
     },
-    getMonthName( month ){
+    getMonthName(){
         let names = new Array ("JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ")
-        return names[month]
+        return names[this.month]
+    },
+    getFullDate(){
+        let names = new Array ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+        return names[this.month]+' de '+this.year
     },
     clear( element ){
         element.innerHTML("")
@@ -83,6 +88,8 @@ const Storage = {
 }
 
 const Transaction = {
+    values: [0,0],
+
     getAll(){
         return Storage.get()
     },
@@ -123,6 +130,13 @@ const Transaction = {
     },
     isEmpty(){
         return (Transaction.getAll().length === 0)
+    },
+    count(){
+        this.values = [0,0]
+        Transaction.getAll().forEach( tr =>{
+            ( tr.amount > 0) ? this.values[0]++ : this.values[1]++ 
+        })
+        return this.values
     }
 }
 
@@ -248,6 +262,94 @@ const Form = {
         } catch (error) {
             alert(error.message)
         }
+    }
+}
+
+//total de entradas, valor total e porc
+const Report = {
+    dateReport: document.querySelector('h3.full-date-report'),
+    countIncomes:  document.querySelector('b.report-incomes'),
+    countExpenses: document.querySelector('b.report-expenses'),
+    countTotal:    document.querySelector('b.count-total'),
+    porcent: [document.querySelector('p.incomes-porc'), document.querySelector('p.expenses-porc')],
+    totalIcon: document.querySelector('img#total-icon'),
+
+    render(){
+        this.dateReport.innerHTML = DATE.getFullDate()
+        this.updateCountLabels()
+        this.updatePorc()
+        this.updateReportBalance()
+        Graph.createPieChart()
+    },
+    updateCountLabels(){
+        const values = Transaction.count()
+        this.updateCount(this.countIncomes, values[0])
+        this.updateCount(this.countExpenses, values[1])
+        this.updateCount(this.countTotal, values[0]+values[1])
+    },
+    updateCount(element, value){
+        element.innerHTML = value
+    },
+    updatePorc(){
+        const values = Transaction.count()
+        for(let i=0; i<2; i++){
+            let total   = values[0]+values[1]
+            let incPorc =  Math.round( (values[i]*100)/total )
+            this.updateCount(this.porcent[i], `${incPorc}%`)
+        }
+    },
+    updateReportBalance(){
+        document
+            .querySelector('p.incomes-total')
+            .innerHTML = Utils.formatCurrency( Transaction.incomes() ) 
+        document
+            .querySelector('p.expenses-total')
+            .innerHTML =  Utils.formatCurrency( Transaction.expenses() ) 
+        this.updateTotal()
+    },
+    updateTotal(){
+        const total = Transaction.total()
+        const label = document.querySelector('b.report-total')
+        const like = './assets/like-green.svg'
+        const deslike = './assets/dislike-red.svg'
+        label.innerHTML =  Utils.formatCurrency( Transaction.total() )
+        if(total >= 0){            
+            label.classList.add('count-incomes')
+            this.totalIcon.src = like
+        }else{
+            label.classList.add('count-expenses')
+            this.totalIcon.src = deslike
+        }
+    }
+}
+
+const Graph = {
+    pieCanvas: document.getElementsByClassName('pie-chart'),
+    incomesColor: 'rgba(104, 196, 70, 1)',
+    expensesColor: 'rgba(230, 78, 116, 1)',
+    createPieChart(){
+        let incomes  = Transaction.incomes()/100
+        let expenses = Transaction.expenses()/100
+        this.pieCanvas.innerHTML = ''
+        new Chart(this.pieCanvas, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [incomes, expenses],
+                    backgroundColor: [
+                        Graph.incomesColor,
+                        Graph.expensesColor
+                    ]
+                }],
+                labels: [
+                    'Entradas',
+                    'Saídas'
+                ] 
+            },
+            options:{
+                cutoutPercentage: 80
+            }
+        })
     }
 }
 

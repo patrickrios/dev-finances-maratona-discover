@@ -5,6 +5,7 @@
     --light-green: #68c446;
     --red: #e92929;
     --action-bg:#F0F2F5;
+    --violet: #AF54C5;
 }
 
 *{
@@ -162,10 +163,25 @@ button{
 }
 
 .card.total{
-    background-color: #AF54C5;
+    background-color: var(--violet);
     color:#fff;
 }
 .card.total h3{
+    color:#fff;
+}
+
+.count-label{
+    border-radius: 1rem;
+    margin-left: 3px;
+    color: #fff;
+}
+.count-incomes{
+    color: var(--green);
+}
+.count-expenses{
+    color: var(--red);
+}
+.count-total{
     color:#fff;
 }
 
@@ -194,16 +210,18 @@ table th{
 
 table td{
     background-color: #fff;
-    padding:1rem 2rem;
+    padding:.75rem 2rem;
     color: #969cb3;
 }
 
 table tbody tr:hover{
     opacity:1;
+    box-shadow: 0 0 2px #eee;
 }
 
 table tbody tr{
-    opacity:.65;
+    opacity:.7;
+    font-size: 1.15em;
 }
 
 table thead tr th:first-child,
@@ -254,7 +272,7 @@ td.expense{
 .table-actions{
     width:100%;
     display: grid;
-    grid-template-columns:65fr 11fr 15fr ;
+    grid-template-columns:65fr 14fr 15fr ;
     gap:1rem;
 }
 
@@ -283,16 +301,15 @@ td.expense{
     width: 65%;
     background-color: #fff;
     border-radius:.4rem;
-    padding-bottom: 3rem;
+    padding-bottom: 5rem;
+    position: relative;
 }
 
 .modal-report header{
     display: grid;
-    grid-template-columns:30fr 45fr 10fr 20fr;
-    gap:1.2rem;
-    height: auto;
-    padding:.7rem .5rem;
-    align-items: center;
+    grid-template-columns:70fr 15fr 15fr;
+    padding:.7rem 2rem;
+    justify-content: space-between;
 }
 .report-header-action{
     color:#969CB2;
@@ -301,22 +318,88 @@ td.expense{
     padding:.3rem;
     
 }
-.modal-report header h3{
-    text-align: center;
-    font-size:1.35em;
+.close-icon{
+    position: absolute;
+    top:.7rem;
+    right:.7rem;
+    cursor: pointer;
+    opacity:.6;
+}
+.close-icon:hover{
+    opacity:1;
+}
+.full-date-report{
+    font-size:1.75em;
+    padding:1.65rem 0;
+    margin-left:3%;
+    font-weight: 700;
+}
+#report-charts{
+    display: grid;
+    grid-template-columns:60fr 40fr;
+    gap:3%;
+    width:92%;
+    margin:0 2rem;
 }
 .chart-container{
+    background-color: #f4f7f8;
+    border-radius:.5rem;
+    position: relative;
+    padding:.75rem 0;
+}
+.chart-container.pie-chart-container{
+    padding:1.75rem 0;
+}
+
+.chart-container canvas{
+    width:100%;
+    height: 100%;
+}
+.chart-container.stats{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+.chart-container.stats .stats-item{
+    padding:1rem 1.2rem;
+    border-bottom: 1px solid #eee;
+}
+.chart-container.stats .stats-item p{
+    margin-top:.8rem;
+    font-size:1.2em;
+}
+.chart-container.stats .stats-item:last-child{
+    border-bottom: none;
+}
+.chart-container.stats .stats-item div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats-item-incomes, 
+.stats-item-expenses,
+.stats-item-total{
+    color:#fff;
+    padding:.075rem .6rem;
+    border-radius:.2rem;
+    width: max-content;
+    opacity:.75;
+}
+.stats-item-incomes{
+    background-color: var(--green);
+}
+.stats-item-expenses{
+    background-color: var(--red);
+}
+.stats-item-total{
+    background-color: var(--dark-blue);
+}
+.stats-item div p:last-child{
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 90%;
-    margin:0 5%;
-    padding:2rem 0 2rem 0;
-    background-color: #f5f5f5;
-    border-radius:.7rem;
 }
-.chart{
-    width:50%;
+.stats-item div p img{
+    margin-right:.3rem;
 }
 
 /* MODAL ===================*/
@@ -349,7 +432,7 @@ td.expense{
     border-radius:.4rem;
 }
 
-/* FORM --------------*/
+/* FORM ==========*/
 #form{
     max-width:500px;
 }
@@ -389,7 +472,7 @@ td.expense{
 
 
 
-/* FOOTER --------------*/
+/* FOOTER ==============*/
 footer{
     text-align: center;
     padding: 4rem 0 2rem;
@@ -405,7 +488,7 @@ footer .footer-logo:hover{
     opacity:1;
 }
 
-/* Responsive ------*/
+/* Responsive ===========*/
 @media(min-width:800px){
 
     header{
