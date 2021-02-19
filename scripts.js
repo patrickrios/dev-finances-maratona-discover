@@ -30,11 +30,11 @@ const DATE = {
     month: Today.month(),
     year: Today.year(),
     getCurrentDate(){
-        return DATE.getMonthName()+'/'+DATE.year
+        return DATE.getMonthName( Number(this.month) )+'/'+DATE.year
     },
-    getMonthName(){
+    getMonthName(month){
         let names = new Array ("JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ")
-        return names[this.month]
+        return names[month]
     },
     getFullDate(){
         let names = new Array ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
@@ -95,6 +95,7 @@ const Transaction = {
     },
     add( transaction){
         let fdate = Utils.formatCalendar( transaction.date )
+        console.log(fdate)
         let stg = Storage.getByDate(fdate)
         stg.push(transaction)
         Storage.setByDate( stg, fdate)
@@ -265,7 +266,6 @@ const Form = {
     }
 }
 
-//total de entradas, valor total e porc
 const Report = {
     dateReport: document.querySelector('h3.full-date-report'),
     countIncomes:  document.querySelector('b.report-incomes'),
