@@ -5,7 +5,7 @@
     --light-green: #68c446;
     --red: #e92929;
     --action-bg:#F0F2F5;
-    --violet: #AF54C5;
+    --violet: #6DC044;
 }
 
 *{
@@ -21,6 +21,7 @@ html{
 body{
     background-color: #f2f0ff;
     font-family: 'Nunito', sans-serif;
+    position: relative;
 }
 
 .sr-only{
@@ -112,10 +113,40 @@ button{
     opacity:1;
 }
 
+#bottom-alert{
+    position: fixed;
+    bottom:2.5rem;
+    left:50%;
+    border-radius:.3rem;
+    transform: translateX(-50%);
+    padding:.8rem 1.15rem;
+    box-shadow:0 0 5px #c7c7c7;
+    display: none;
+    z-index:5;
+}
+#bottom-alert p{
+    color:#fff;
+    font-size: 1.25em;
+    display: flex;
+    align-items: center;
+}
+#bottom-alert p img{
+    margin-right:5px;
+}
+.pos-alert{
+    background-color: #13af59;
+}
+.neg-alert{
+    background-color: #e28f13;
+}
+.display-alert{
+    display: block !important;
+}
+
 /* HEADER ================*/
 
 #head{
-    background: linear-gradient(to bottom, #39444A 70%, #2f393d);
+    background: linear-gradient(180deg, #222D32 50%, #151e22 100%);
     background-color:#39444A;/*  linear-gradient(to right, #117e75, #117437) */
     padding: 2rem 0 6rem;
     text-align: center;
@@ -140,7 +171,7 @@ button{
 .card{
     background-color: #fff;
     padding: 1.5rem 2rem;
-    border-radius: .25rem;
+    border-radius: .4rem;
     margin-bottom: 2rem;
     color: var(--dark-blue);
     box-shadow: -1px 0px 13px -5px rgba(142,143,166,0.75);
@@ -163,11 +194,16 @@ button{
 }
 
 .card.total{
-    background-color: var(--violet);
     color:#fff;
 }
 .card.total h3{
     color:#fff;
+}
+.total-positive{
+    background-color: var(--violet);
+}
+.total-negative{
+    background-color: var(--red);
 }
 
 .count-label{

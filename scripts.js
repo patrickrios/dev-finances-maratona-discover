@@ -104,9 +104,9 @@ const Transaction = {
     remove(index){
         const all = Transaction.getAll()
         all.splice(index, 1)
-        console.log( all )
         Storage.set(all)
         App.reload()
+        DOM.showAlert('Transação removida', 'neg-alert')
     },
     incomes(){
         let income = 0
@@ -171,10 +171,22 @@ const DOM = {
             .innerHTML = Utils.formatCurrency( Transaction.incomes() ) 
         document
             .getElementById('expenseDisplay')
-            .innerHTML =  Utils.formatCurrency( Transaction.expenses() ) 
+            .innerHTML =  Utils.formatCurrency( Transaction.expenses() )
+
+        let total = Transaction.total()
         document
             .getElementById('totalDisplay')
-            .innerHTML =  Utils.formatCurrency( Transaction.total() )
+            .innerHTML =  Utils.formatCurrency( total )
+        DOM.updateTotalClass(total)
+    },
+    updateTotalClass( total ){
+        const totalDisplay = document.getElementById('card-total')
+        totalDisplay.classList.remove('total-positive', 'total-negative')
+        if( total >= 0){
+            totalDisplay.classList.add('total-positive')
+        }else{
+            totalDisplay.classList.add('total-negative')
+        }
     },
     clearTransactions(){
         DOM.transactionContainer.innerHTML = ""
@@ -184,6 +196,26 @@ const DOM = {
     },
     hideEmptyTable(){
         DOM.emptyTable.classList.remove('display-empty')
+    },
+    showAlert(text, styleclass){
+        this.setAlert(text, styleclass)
+        this.toggleAlert()
+        setTimeout( () =>{
+            this.toggleAlert()
+        }, 2500)
+    },
+    setAlert(text, styleclass){
+        document
+            .querySelector('span.alert-message')
+            .innerHTML = text
+        document
+            .getElementById("bottom-alert")
+            .classList.add(styleclass)
+    },
+    toggleAlert(){
+        document
+        .getElementById("bottom-alert")
+        .classList.toggle('display-alert')
     }
 }
 
@@ -260,6 +292,7 @@ const Form = {
             Form.saveTransaction(transaction)           
             Form.clearFields()
             Modal.toggleModal()
+            DOM.showAlert('Transação adicionada', 'pos-alert')
         } catch (error) {
             alert(error.message)
         }
@@ -313,6 +346,7 @@ const Report = {
         const like = './assets/like-green.svg'
         const deslike = './assets/dislike-red.svg'
         label.innerHTML =  Utils.formatCurrency( Transaction.total() )
+        label.classList.remove('count-incomes', 'count-expenses')
         if(total >= 0){            
             label.classList.add('count-incomes')
             this.totalIcon.src = like
