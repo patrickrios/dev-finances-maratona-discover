@@ -84,7 +84,6 @@ const Storage = {
     setByDate(transactions, date){
         localStorage.setItem(`dev.finances:transactions[${date}]`, JSON.stringify(transactions))   
     }
-    
 }
 
 const Transaction = {
@@ -306,16 +305,24 @@ const Report = {
     countTotal:    document.querySelector('b.count-total'),
     porcent: [document.querySelector('p.incomes-porc'), document.querySelector('p.expenses-porc')],
     totalIcon: document.querySelector('img#total-icon'),
+    chartsContainer: document.getElementById('report-charts'),
+    emptyReport: document.querySelector('div.empty-report'),
 
     render(){
-        this.dateReport.innerHTML = DATE.getFullDate()
-        this.updateCountLabels()
-        this.updatePorc()
-        this.updateReportBalance()
-        Graph.createPieChart()
-    },
-    updateCountLabels(){
         const values = Transaction.count()
+        this.dateReport.innerHTML = DATE.getFullDate()
+
+        if(values[0]+values[1] === 0){
+            this.swicthReport(true)
+        }else{
+            this.updateCountLabels(values)
+            this.updatePorc(values)
+            this.updateReportBalance()
+            Graph.createPieChart(false)
+            this.swicthReport(false)
+        }
+    },
+    updateCountLabels(values){
         this.updateCount(this.countIncomes, values[0])
         this.updateCount(this.countExpenses, values[1])
         this.updateCount(this.countTotal, values[0]+values[1])
@@ -323,8 +330,7 @@ const Report = {
     updateCount(element, value){
         element.innerHTML = value
     },
-    updatePorc(){
-        const values = Transaction.count()
+    updatePorc(values){
         for(let i=0; i<2; i++){
             let total   = values[0]+values[1]
             let incPorc =  Math.round( (values[i]*100)/total )
@@ -354,13 +360,19 @@ const Report = {
             label.classList.add('count-expenses')
             this.totalIcon.src = deslike
         }
+    },
+    swicthReport( isEmpty ){
+        ( isEmpty ) ? 
+            this.chartsContainer.classList.toggle('hide-report') 
+        :
+            this.emptyReport.classList.toggle('hide-report')
     }
 }
 
 const Graph = {
     pieCanvas: document.getElementsByClassName('pie-chart'),
     incomesColor: 'rgba(104, 196, 70, 1)',
-    expensesColor: 'rgba(230, 78, 116, 1)',
+    expensesColor: 'rgba(239, 33, 85, 1)',
     createPieChart(){
         let incomes  = Transaction.incomes()/100
         let expenses = Transaction.expenses()/100

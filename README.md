@@ -2,6 +2,13 @@
 
 ### Descrição
 Web app para guardar transações financeiras. Este projeto foi desenvolvido durante as aulas da Maratona Discover da Rocketseat.
+### Tecnologias
+HTML, CSS, JavaScript
+### Funcionalidades
+* Adicionar nova transação
+* Excluir transação existente
+* Navegar entre os meses do ano
+* Gerar relatório de estatísticas e gráfico do mês
 ### Voçê pode experimentar o app online no link abaixo
 ### <a href="https://patrickrios.github.io/dev-finances-maratona-discover/" target="_blank">Acessar app</a>
 ### Agradecimentos
