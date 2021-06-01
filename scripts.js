@@ -35,6 +35,13 @@ const DATE = {
     getMonthName(month){
         let names = new Array ("JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ")
         return names[month]
+    
+    },
+    pad(integer){
+        return (integer < 10) ? "0"+integer : integer
+    },
+    shortYear(year){
+        return year[2]+year[3]
     },
     getFullDate(){
         let names = new Array ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")

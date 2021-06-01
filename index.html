@@ -21,24 +21,24 @@
         <!-- Balanço -->
         <section id="balance">
             <h2 class="sr-only">Balanço</h2>
-            <div class="card">
+            <div class="card first-card">
                 <h3>
                     <span>Entradas</span>
-                    <img src="./assets/income.svg" alt="imagem de entradas">
+                    <img class="desk-only" src="./assets/income.svg" alt="imagem de entradas">
                 </h3>
                 <p id="incomeDisplay">R$ 0,00</p>
             </div>
             <div class="card">
                 <h3>
                     <span>Saídas</span>
-                    <img src="./assets/expense.svg" alt="imagem de saída">
+                    <img class="desk-only" src="./assets/expense.svg" alt="imagem de saída">
                 </h3>
                 <p id="expenseDisplay">R$ 0,00</p>
             </div>
-            <div class="card total" id="card-total">
+            <div class="card total last-card" id="card-total">
                 <h3>
                     <span>Total</span>
-                    <img src="./assets/total.svg" alt="imagem de total">
+                    <img class="desk-only" src="./assets/total.svg" alt="imagem de total">
                 </h3>
                 <p id="totalDisplay">R$ 0,00</p>
             </div>    
@@ -46,23 +46,33 @@
 
         <!-- Transações -->
         <section id="transactions">
-            <h2 class="sr-only">Transações</h2>
             <!-- Actions -->
-            <div class="table-actions">
-                <a onclick="Modal.toggleModal()"  href="#" class="button new"><img src="./assets/add-circle.svg"> nova transação</a>
-                <a onclick="Modal.toggleReport()" href="#" class="action-report button report"><img src="./assets/pie-chart.svg" alt="Ícone opção de relatório"> Estatísticas</a>
-                <div class="table-calendar button calendar">
-                    <a href="#" onclick="DATE.previousDate()" class="calendar-control">
-                        <img src="./assets/chevron-left.svg" alt="Seta mês anterior">
-                    </a>
-                    <p id="calendar-month-year"></p>
-                    <a href="#" onclick="DATE.nextDate()" class="calendar-control">
-                        <img src="./assets/chevron-right.svg" alt="Seta próximo mês">
-                    </a>
-                </div>
-            </div>
+            <nav class="table-actions">
+                <ul>
+                    <li class="action new" onclick="Modal.toggleModal()">
+                        <img src="./assets/add-circle.svg"> 
+                        <span class="desk-only">nova transação</span>
+                    </li>
+                    <li class="action" onclick="Modal.toggleReport()">
+                        <img src="./assets/pie-chart.svg" alt="Ícone opção de relatório"> 
+                        <span class="desk-only">Estatísticas</span>
+                    </li>
+                    <li class="action">
+                        <div class="table-calendar calendar">
+                            <a href="#" onclick="DATE.previousDate()" class="calendar-control">
+                                <img src="./assets/chevron-left.svg" alt="Seta mês anterior">
+                            </a>
+                            <p id="calendar-month-year"></p>
+                            <a href="#" onclick="DATE.nextDate()" class="calendar-control">
+                                <img src="./assets/chevron-right.svg" alt="Seta próximo mês">
+                            </a>
+                        </div>
+                    </li>
+                </ul> 
+            </nav>
             <!-- List -->
             <table id="data-table">
+                <h2 class="sr-only">Transações</h2>
                 <thead>
                     <tr>
                         <th>DESCRIÇÃO</th>
@@ -133,7 +143,7 @@
             <h3 class="full-date-report">full date</h3>
             <div class="empty-report">
                 <img src="./assets/value-none.svg">
-                <p>Nenhuma informação pra ser exibida</p>
+                <p>Nenhuma informação a ser exibida</p>
             </div>
             <section id="report-charts">
                 <!-- Gráfico pizza -->
